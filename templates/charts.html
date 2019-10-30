@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <script src="static/socketstuff.js"></script>
+    <script src="static/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/material.js"></script>
+    <script src="https://www.amcharts.com/lib/4/lang/de_DE.js"></script>
+    <script src="https://www.amcharts.com/lib/4/geodata/germanyLow.js"></script>
+    <style>
+        .wrapper {
+            width: 50%;
+            /* whatever width you want */
+            display: inline-block;
+            position: relative;
+        }
+        .wrapper:after {
+            padding-top: 56.25%;
+            /* 16:9 ratio */
+            display: block;
+            content: '';
+        }
+        .main {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            /* fill parent */
+            background-color: white;
+            /* let's see it! */
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div>
+        <h1>360 N.O-Scope</h1>
+        <p>Right now it's just a sine wave.</p>
+    </div>
+</div>
+
+<div class="wrapper" id="chart">
+    <p>Chart</p>
+    <div class="main" id="amChart">
+        <!-- Chart goes in here -->
+    </div>
+</div>
+<div>
+    <form id="form1" method="POST" action='#'>
+        <div id="StartDiv">
+            <button type="submit" name="Start" value="1">Start</button>
+        </div>
+    </form>
+    <form id="form2" method="POST" action='#'>
+        <div id="StopDiv">
+            <button type="submit" name="Stop" value="1">Stop</button>
+        </div>
+    </form>
+</div>
+<script>
+    var big_chart = initChart();
+    socketStart(big_chart);
+</script>
+
+</body>
+</html>
