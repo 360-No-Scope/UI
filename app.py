@@ -19,6 +19,8 @@ socketio = SocketIO(app)
 thread = Thread()
 thread_stop_event = Event()
 global pls_run
+global hscale
+global vscale
 pls_run = False
 
 class RandomThread(Thread):
@@ -28,6 +30,9 @@ class RandomThread(Thread):
 
 
     def randomNumberGenerator(self):
+
+        global hscale
+        global vscale
         """
         Generate a random number every 1 second and emit to a socketio instance (broadcast)
         Ideally to be run in a separate thread?
@@ -42,11 +47,11 @@ class RandomThread(Thread):
         curr_time = start_time
         freq = 1 / 10  # Hz
         omega = 2 * np.pi * freq
-        vscale = 100  # mV/div
-        hscale = 1000  # ms/div
+        vscale = .2  # V/div
+        hscale = 2.5  # ms/div
 
         while not thread_stop_event.isSet():
-            sine_wave = i * np.sin(omega * np.linspace(-10, 10 * hscale / 1000, 4000))
+            sine_wave = np.sin(i * omega * np.linspace(-10, 10 * hscale / 1000, 4000))
             sine_wave2 = 2 * sine_wave
             time_vals = np.linspace(-10, 10 * hscale / 1000, 4000)
             i += 1
@@ -98,6 +103,17 @@ def print_stuff(data):
         pls_run = True
     else:
         pls_run = False
+
+
+@socketio.on('scales', namespace='/test')
+def print_stuff(data):
+    print('Uh oh, stinky')
+    print(data['data'] + " H E A D")
+    global hscale
+    global vscale
+    hscale = float(data['h_scale'])
+    vscale = float(data['v_scale'])
+
 
 @socketio.on('connect', namespace='/test')
 def test_connect():

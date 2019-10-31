@@ -4,8 +4,10 @@ function initChart() {
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
     valueAxis.max = 7;
     valueAxis.min = -7;
+    //timeAxis.strictMinMax = true;
     timeAxis.max = 10;
     timeAxis.min = -10;
+    timeAxis.title.text = "Time (s)";
 
     var series = chart.series.push(new am4charts.LineSeries());
     series.name = "Channel 1";
@@ -24,7 +26,8 @@ function initChart() {
     //var chartdata = {'chart':chart, 'axes':[timeAxis,valueAxis], 'series'}
     // And, for a good measure, let's add a legend
     chart.legend = new am4charts.Legend();
-    return chart
+    chart_data = {chart:chart, xAxis:timeAxis, yAxis:valueAxis}
+    return chart_data
 
 }
 

@@ -12,16 +12,11 @@
     <script src="https://www.amcharts.com/lib/4/geodata/germanyLow.js"></script>
     <style>
         .wrapper {
-            width: 50%;
+            width: 1000px;
+            height: 500px;
             /* whatever width you want */
             display: inline-block;
             position: relative;
-        }
-        .wrapper:after {
-            padding-top: 56.25%;
-            /* 16:9 ratio */
-            display: block;
-            content: '';
         }
         .main {
             position: absolute;
@@ -59,6 +54,20 @@
     <form id="form2" method="POST" action='#'>
         <div id="StopDiv">
             <button type="submit" name="Stop" value="1">Stop</button>
+        </div>
+    </form>
+    <form id="scales" method="POST" action="#">
+        <div id="scale">
+            <label for="hscale">Enter the scale in ms/div</label>
+            <input type="number" name="hscale" id="hscale" required>
+
+        </div>
+        <div>
+            <label for="vscale">Enter the scale in mV/div</label>
+            <input type="number" name="vscale" id="vscale" required>
+        </div>
+        <div>
+            <input type="submit" value="Change scale!">
         </div>
     </form>
 </div>
