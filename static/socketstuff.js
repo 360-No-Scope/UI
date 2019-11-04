@@ -13,6 +13,8 @@ function socketStart(chart_data){
         var time_vals = msg.ch1.time;
         var h_scale = msg.ch1.hscale;
         var v_scale = msg.ch1.vscale;
+        console.log(h_scale + "horizontal");
+        console.log(v_scale + "verticle");
         if (yAxis.max !== 4*v_scale) {
             yAxis.max = 4*v_scale;
             yAxis.min = -4*v_scale;
@@ -28,7 +30,7 @@ function socketStart(chart_data){
         var i = 0;
         var datum = [];
 /*        xAxis.max = 10;*/
-        xAxis.min = xAxis.min - 1;
+        //xAxis.min = xAxis.min - 1;
         //yAxis.min = yAxis.min - 1;
         xAxis.renderer.ticks.template.disabled = false;
         xAxis.renderer.ticks.template.strokeOpacity = 1;
@@ -46,7 +48,7 @@ function socketStart(chart_data){
         }
         //console.log(JSON.stringify(datum));
         chart.data = datum;
-        xAxis.min = xAxis.min + 1;
+        //xAxis.min = xAxis.min + 1;
         //yAxis.min = yAxis.min + 1;
         console.log(h_scale.toString() +"s/d " + v_scale.toString() + "V/d");
         // var time = Number(msg.number.time);
@@ -73,14 +75,21 @@ function socketStart(chart_data){
         return false;
     });
 
-    $('form#scales').submit(function(event) {
-        var h_scale = document.getElementById("hscale").valueOf();
+    $('form#hscales').submit(function(event) {
+        var h_scale = document.getElementById('hscale').value;
         console.log(h_scale);
-        var v_scale = document.getElementById("vscale").valueOf();
-        console.log(v_scale);
-        socket.emit('scales', {data: 'hageman', v_scale: v_scale, h_scale: h_scale});
+/*        var v_scale = document.getElementById('vscale')
+        console.log(v_scale);*/
+        socket.emit('scales', {data: ['hageman', h_scale]});
         console.log("You're a poopyhead");
         return false;
     });
-
+    $('form#vscales').submit(function(event) {
+        var v_scale = document.getElementById('vscale').value;
+        //TODO:Validate input and convert to standard unit
+        console.log(v_scale);
+        socket.emit('scales', {data: ['bussy', v_scale]});
+        console.log("You're a poopyhead");
+        return false;
+    });
 }

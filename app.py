@@ -51,9 +51,9 @@ class RandomThread(Thread):
         hscale = 2.5  # ms/div
 
         while not thread_stop_event.isSet():
-            sine_wave = np.sin(i * omega * np.linspace(-10, 10 * hscale / 1000, 4000))
+            sine_wave = np.sin(i * omega * np.linspace(-10, 10, 4000))
             sine_wave2 = 2 * sine_wave
-            time_vals = np.linspace(-10, 10 * hscale / 1000, 4000)
+            time_vals = np.linspace(-10, 10, 4000)
             i += 1
             if i >= 6:
                 i = 1
@@ -108,11 +108,14 @@ def print_stuff(data):
 @socketio.on('scales', namespace='/test')
 def print_stuff(data):
     print('Uh oh, stinky')
-    print(data['data'] + " H E A D")
-    global hscale
-    global vscale
-    hscale = float(data['h_scale'])
-    vscale = float(data['v_scale'])
+    print(data)
+    print(data['data'][0] + " H E A D")
+    if data['data'][0] == 'hageman':
+        global hscale
+        hscale = float(data['data'][1])
+    else:
+        global vscale
+        vscale = float(data['data'][1])
 
 
 @socketio.on('connect', namespace='/test')
