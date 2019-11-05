@@ -48,12 +48,12 @@
 
 </div>
 <div id="buttons" style="width: 600px; float: left;">
-    <form id="form1" method="POST" action='#'>
+    <form id="start_form" method="POST" action='#'>
         <div id="StartDiv" style="width: 600px; float: left;">
             <button type="submit" name="Start" value="1">Start</button>
         </div>
     </form>
-    <form id="form2" method="POST" action='#'>
+    <form id="stop_form" method="POST" action='#'>
         <div id="StopDiv" style="width: 200px; float: left;">
             <button type="submit" name="Stop" value="1">Stop</button>
         </div>
@@ -99,6 +99,34 @@
           <!-- List goes in here ;) -->
         </ul>
     </div>
+</div>
+<div id="cursors">
+
+    <form id="cursor_form" method="post">
+        <div>
+        <select id="cursor_select" onchange=change_cursor_sel()>
+            <option value="X1">X1</option>
+            <option value="X2">X2</option>
+            <option value="Y1">Y1</option>
+            <option value="Y2">Y2</option>
+        </select>
+        </div>
+        <div>
+            <input type="submit" id="big_reduce" value="<<" onclick="change_cursor_val(-10)">
+            <input type="submit" id="small_reduce" value="<" onclick="change_cursor_val(-100)">
+            <input type="text" id="cursor_val" value="0.0" readonly>
+            <input type="submit" id="small_increase" value=">" onclick="change_cursor_val(100)">
+            <input type="submit" id="big_increase" value=">>" onclick="change_cursor_val(10)">
+            <input type="hidden" id="X1" value="0.0">
+            <input type="hidden" id="X2" value="0.0">
+            <input type="hidden" id="Y2" value="0.0">
+            <input type="hidden" id="Y1" value="0.0">
+            <input type="hidden" id="time_width" value="0.0">
+            <input type="hidden" id="volt_width" value="0.0">
+            <input type="hidden" id="old_cursor" value="X1">
+        </div>
+        <!--Turn Cursors On (Causes strobing): <input type="checkbox" id="cursor_toggle" value="false">-->
+    </form>
 </div>
 <script>
     var big_chart = initChart();
