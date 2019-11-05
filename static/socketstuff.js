@@ -41,47 +41,40 @@ function socketStart(chart_data){
         var cursors_state = document.getElementById("cursor_toggle").value;
         var i = 0;
         var datum = [];
-        if (cursors_state) {
-            var cursorX1 = parseFloat(document.getElementById("X1").value);
-            var cursorX2 = parseFloat(document.getElementById("X2").value);
-            var cursorY1 = parseFloat(document.getElementById("Y1").value);
-            var cursorY2 = parseFloat(document.getElementById("Y2").value);
-            var xcursor_max = yAxis.max;
-            var xcursor_min = yAxis.min;
-            var ycursor_max = xAxis.max;
-            var ycursor_min = xAxis.min;
-            var y_cursor_times_1 = [ycursor_min, ycursor_max];
-            var y_cursor_times_2 = [ycursor_min, ycursor_max];
-            var x_cursor_times_1 = [cursorX1, cursorX1];
-            var x_cursor_times_2 = [cursorX2, cursorX2];
-            var y_cursor_volts_1 = [cursorY1, cursorY1];
-            var y_cursor_volts_2 = [cursorY2, cursorY2];
-            var x_cursor_volts_1 = [xcursor_max, xcursor_min];
-            var x_cursor_volts_2 = [xcursor_max, xcursor_min];
-            document.getElementById("time_width").setAttribute("value", (8 * h_scale).toString());
-            document.getElementById("volt_width").setAttribute("value", (8 * v_scale).toString());
+        var cursorX1 = parseFloat(document.getElementById("X1").value);
+        var cursorX2 = parseFloat(document.getElementById("X2").value);
+        var cursorY1 = parseFloat(document.getElementById("Y1").value);
+        var cursorY2 = parseFloat(document.getElementById("Y2").value);
+        var xcursor_max = yAxis.max;
+        var xcursor_min = yAxis.min;
+        var ycursor_max = xAxis.max;
+        var ycursor_min = xAxis.min;
+        var y_cursor_times_1 = [ycursor_min, ycursor_max];
+        var y_cursor_times_2 = [ycursor_min, ycursor_max];
+        var x_cursor_times_1 = [cursorX1, cursorX1];
+        var x_cursor_times_2 = [cursorX2, cursorX2];
+        var y_cursor_volts_1 = [cursorY1, cursorY1];
+        var y_cursor_volts_2 = [cursorY2, cursorY2];
+        var x_cursor_volts_1 = [xcursor_max, xcursor_min];
+        var x_cursor_volts_2 = [xcursor_max, xcursor_min];
+        document.getElementById("time_width").setAttribute("value", (8 * h_scale).toString());
+        document.getElementById("volt_width").setAttribute("value", (8 * v_scale).toString());
 
-            for (i = 0; i < ch1_vals.length; i++) {
-                if (i < x_cursor_times_1.length) {
-                    datum.push({
-                        'time': parseFloat(time_vals[i]), 'value': parseFloat(ch1_vals[i]),
-                        'timeXC1': parseFloat(x_cursor_times_1[i]), 'valueXC1': parseFloat(x_cursor_volts_1[i]),
-                        'timeXC2': parseFloat(x_cursor_times_2[i]), 'valueXC2': parseFloat(x_cursor_volts_2[i]),
-                        'valueYC1': parseFloat(y_cursor_volts_1[i]), 'timeYC1': parseFloat(y_cursor_times_1[i]),
-                        'valueYC2': parseFloat(y_cursor_volts_2[i]), 'timeYC2': parseFloat(y_cursor_times_2[i])
-                    });
-                } else {
-                    datum.push({'time': Number(time_vals[i]), 'value': Number(ch1_vals[i])});
-                }
-            }
-        }
-        else
-        {
-            for (i = 0; i < ch1_vals.length; i++) {
+        for (i = 0; i < ch1_vals.length; i++) {
+            if (i < x_cursor_times_1.length) {
+                datum.push({
+                    'time': parseFloat(time_vals[i]), 'value': parseFloat(ch1_vals[i]),
+                    'timeXC1': parseFloat(x_cursor_times_1[i]), 'valueXC1': parseFloat(x_cursor_volts_1[i]),
+                    'timeXC2': parseFloat(x_cursor_times_2[i]), 'valueXC2': parseFloat(x_cursor_volts_2[i]),
+                    'valueYC1': parseFloat(y_cursor_volts_1[i]), 'timeYC1': parseFloat(y_cursor_times_1[i]),
+                    'valueYC2': parseFloat(y_cursor_volts_2[i]), 'timeYC2': parseFloat(y_cursor_times_2[i])
+                });
+            } else {
                 datum.push({'time': Number(time_vals[i]), 'value': Number(ch1_vals[i])});
             }
-
         }
+
+
         //console.log(JSON.stringify(datum));
         chart.data = datum;
         //xAxis.min = xAxis.min + 1;
