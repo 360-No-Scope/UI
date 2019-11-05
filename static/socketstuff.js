@@ -38,7 +38,6 @@ function socketStart(chart_data){
         yAxis.renderer.ticks.template.stroke = am4core.color("#495C43");
         yAxis.renderer.ticks.template.strokeWidth = 2;
         yAxis.renderer.ticks.template.length = 10;
-        var cursors_state = document.getElementById("cursor_toggle").value;
         var i = 0;
         var datum = [];
         var cursorX1 = parseFloat(document.getElementById("X1").value);
