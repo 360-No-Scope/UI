@@ -38,26 +38,28 @@
         <p>Right now it's just a sine wave.</p>
     </div>
 </div>
-
-<div class="wrapper" id="chart">
-    <p>Chart</p>
-    <div class="main" id="amChart">
-        <!-- Chart goes in here -->
+<div id="chartArea">
+    <div class="wrapper" id="chart">
+        <p>Chart</p>
+        <div class="main" id="amChart">
+            <!-- Chart goes in here -->
+        </div>
     </div>
+
 </div>
-<div>
+<div id="buttons" style="width: 600px; float: left;">
     <form id="form1" method="POST" action='#'>
-        <div id="StartDiv">
+        <div id="StartDiv" style="width: 600px; float: left;">
             <button type="submit" name="Start" value="1">Start</button>
         </div>
     </form>
     <form id="form2" method="POST" action='#'>
-        <div id="StopDiv">
+        <div id="StopDiv" style="width: 200px; float: left;">
             <button type="submit" name="Stop" value="1">Stop</button>
         </div>
     </form>
     <form id="hscales" method="POST" action="#">
-        <div id="scale">
+        <div id="scale" style="margin-left: 250px;">
             <label for="hscale">Enter the scale in S/div</label>
             <input type="text" name="hscale" id="hscale" required>
             <input type="submit" value="Change Hscale!">
@@ -65,12 +67,38 @@
         </div>
     </form>
     <form id="vscales" method="POST" action="#">
-        <div>
+        <div style="margin-left: 250px;">
             <label for="vscale_submit">Enter the scale in V/div</label>
             <input type="text" name="vscale" id="vscale" required>
             <input type="submit" value="Change Vscale!">
         </div>
     </form>
+    <select id="measSelect">
+        <option value="Frequency">Frequency</option>
+        <option value="RMS_Voltage">RMS Voltage</option>
+        <option value="Pk-Pk_Voltage">Peak-Peak Voltage</option>
+        <option value="Period">Period</option>
+        <option value="Delta_Time">Delta Time</option>
+        <option value="Delta_Voltage">Delta Voltage</option>
+        <option value="Duty_Cycle">Duty Cycle</option>
+        <option value="Neg_Duty_Cycle">Negative Duty Cycle</option>
+        <option value="Rising_Count">Rising Edge Count</option>
+        <option value="Falling_Count">Falling Edge Count</option>
+    </select>
+    <form id="addmeas" method="POST">
+        <input type="submit" value="Add Meas.">
+    </form>
+    <form id="remmeas" method="POST">
+        <input type="submit" value="Remove Meas.">
+    </form>
+</div>
+<div id="measurements" style="margin-left: 620px;">
+    <div><p>Measurement List:</p></div>
+    <div>
+        <ul id="measure_list">
+          <!-- List goes in here ;) -->
+        </ul>
+    </div>
 </div>
 <script>
     var big_chart = initChart();

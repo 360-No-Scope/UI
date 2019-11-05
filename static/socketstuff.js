@@ -2,6 +2,7 @@
 function socketStart(chart_data){
     //connect to the socket server.
     var socket = io.connect('http://' + document.domain + ':' + location.port + '/test');
+    var measList = [];
     socket.on('waveform', function(msg) {
         console.log("The deliciousness has landed");
         //console.log(JSON.stringify(msg.ch1));
@@ -92,4 +93,52 @@ function socketStart(chart_data){
         console.log("You're a poopyhead");
         return false;
     });
+    $('form#remmeas').submit(function(event) {
+        var measurement = document.getElementById('measSelect').value;
+        //TODO:Validate input and convert to standard unit
+        console.log(measurement);
+        if (check_if_meas_exists(measurement, measList)) {
+            var measList2 = [];
+            for (var i=0; i<measList.length; i++) {
+                if (measurement !== measList[i]) {
+                    measList2.push(measList[i]);
+                }
+                else {
+                    //TODO: Remove HTML element from screen
+                    var ul = document.getElementById("measure_list");
+                    var item = document.getElementById(measurement);
+                    ul.removeChild(item);
+                    ;
+                }
+            }
+
+            measList = measList2;
+            console.log(measList);
+        }
+        return false;
+    });
+    $('form#addmeas').submit(function(event) {
+        var measurement = document.getElementById('measSelect').value;
+        //TODO:Validate input and convert to standard unit
+        console.log(measurement);
+        if (!check_if_meas_exists(measurement, measList)) {
+            measList.push(measurement);
+            console.log(measList);
+            var ul = document.getElementById("measure_list");
+            var li = document.createElement("li");
+            li.setAttribute('id',measurement);
+            li.appendChild(document.createTextNode(measurement));
+            ul.appendChild(li);
+        }
+        return false;
+    });
+}
+
+function check_if_meas_exists(measurement, measList) {
+    for(var i=0; i<measList.length; i++) {
+        if (measurement === measList[i]) {
+            return true;
+        }
+    }
+    return false;
 }

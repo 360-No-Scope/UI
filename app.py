@@ -23,13 +23,13 @@ global hscale
 global vscale
 pls_run = False
 
+
 class RandomThread(Thread):
     def __init__(self):
         self.delay = 1
         super(RandomThread, self).__init__()
 
-
-    def randomNumberGenerator(self):
+    def random_number_generator(self):
 
         global hscale
         global vscale
@@ -66,7 +66,7 @@ class RandomThread(Thread):
             sleep(self.delay)
 
     def run(self):
-        self.randomNumberGenerator()
+        self.random_number_generator()
 
     def old_sine(self):
         print("Daddy Hageman")
