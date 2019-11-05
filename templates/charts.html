@@ -127,6 +127,18 @@
         </div>
     </form>
 </div>
+<div>
+    <form id="hoffset_form" method="post">
+    <label for="hoffset">Horizontal Offset (S)</label>
+    <input type="text" id="hoffset" value="0.0">
+    <input type="submit" id="hoffset_sub" value="Submit">
+    </form>
+    <form id="voffset_form" method="post">
+    <label for="voffset">Vertical Offset (V)</label>
+    <input type="text" id="voffset" value="0.0">
+    <input type="submit" id="voffset_sub" value="Submit">
+    </form>
+</div>
 <script>
     var big_chart = initChart();
     socketStart(big_chart);

@@ -168,6 +168,19 @@ function socketStart(chart_data){
 
         return false;
     });
+    $('form#hoffset_form').submit(function(event) {
+
+        //console.log(cursor);
+
+        return false;
+    });
+    $('form#voffset_form').submit(function(event) {
+        var cursor = document.getElementById('cursor_select').value;
+        //TODO:Validate input and convert to standard unit
+        //console.log(cursor);
+
+        return false;
+    });
 }
 
 function check_if_meas_exists(measurement, measList) {
