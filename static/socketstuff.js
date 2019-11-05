@@ -38,10 +38,10 @@ function socketStart(chart_data){
         yAxis.renderer.ticks.template.stroke = am4core.color("#495C43");
         yAxis.renderer.ticks.template.strokeWidth = 2;
         yAxis.renderer.ticks.template.length = 10;
-        //var cursors_state = document.getElementById("cursor_toggle").value;
+        var cursors_state = document.getElementById("cursor_toggle").value;
         var i = 0;
         var datum = [];
-        /*if (cursors_state) {
+        if (cursors_state) {
             var cursorX1 = parseFloat(document.getElementById("X1").value);
             var cursorX2 = parseFloat(document.getElementById("X2").value);
             var cursorY1 = parseFloat(document.getElementById("Y1").value);
@@ -57,10 +57,10 @@ function socketStart(chart_data){
             var y_cursor_volts_1 = [cursorY1, cursorY1];
             var y_cursor_volts_2 = [cursorY2, cursorY2];
             var x_cursor_volts_1 = [xcursor_max, xcursor_min];
-            var x_cursor_volts_2 = [xcursor_max, xcursor_min];*/
-        document.getElementById("time_width").setAttribute("value", (8 * h_scale).toString());
-        document.getElementById("volt_width").setAttribute("value", (8 * v_scale).toString());
-            /*
+            var x_cursor_volts_2 = [xcursor_max, xcursor_min];
+            document.getElementById("time_width").setAttribute("value", (8 * h_scale).toString());
+            document.getElementById("volt_width").setAttribute("value", (8 * v_scale).toString());
+
             for (i = 0; i < ch1_vals.length; i++) {
                 if (i < x_cursor_times_1.length) {
                     datum.push({
@@ -76,12 +76,12 @@ function socketStart(chart_data){
             }
         }
         else
-        {*/
-        for (i = 0; i < ch1_vals.length; i++) {
-            datum.push({'time': Number(time_vals[i]), 'value': Number(ch1_vals[i])});
-        }
+        {
+            for (i = 0; i < ch1_vals.length; i++) {
+                datum.push({'time': Number(time_vals[i]), 'value': Number(ch1_vals[i])});
+            }
 
-        //}
+        }
         //console.log(JSON.stringify(datum));
         chart.data = datum;
         //xAxis.min = xAxis.min + 1;

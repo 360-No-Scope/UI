@@ -51,9 +51,9 @@ class RandomThread(Thread):
         hscale = 2.5  # ms/div
 
         while not thread_stop_event.isSet():
-            sine_wave = np.sin(i * omega * np.linspace(-10, 10, 4000))
+            sine_wave = np.sin(i * omega * np.linspace(-10, 10, 400))
             sine_wave2 = 2 * sine_wave
-            time_vals = np.linspace(-10, 10, 4000)
+            time_vals = np.linspace(-10, 10, 400)
             i += 1
             if i >= 6:
                 i = 1

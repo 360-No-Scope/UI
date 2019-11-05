@@ -14,7 +14,7 @@ function initChart() {
     series.dataFields.valueY = "value";
     series.dataFields.valueX = "time";
 
-    /*var series2 = chart.series.push(new am4charts.LineSeries());
+    var series2 = chart.series.push(new am4charts.LineSeries());
     series2.dataFields.valueX = "timeXC1";
     series2.dataFields.valueY = "valueXC1";
     series2.name = "Cursor X1";
@@ -32,7 +32,7 @@ function initChart() {
     var series5 = chart.series.push(new am4charts.LineSeries());
     series5.dataFields.valueX = "timeXC2";
     series5.dataFields.valueY = "valueXC2";
-    series5.name = "Cursor X2";*/
+    series5.name = "Cursor X2";
 /*    var series2 = chart.series.push(new am4charts.LineSeries());
     series2.name = "Channel 2";
     series2.dataFields.valueY = "value2";
