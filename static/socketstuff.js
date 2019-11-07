@@ -30,12 +30,12 @@ function socketStart(chart_data){
         console.log(yAxis.min);
         xAxis.renderer.ticks.template.disabled = false;
         xAxis.renderer.ticks.template.strokeOpacity = 1;
-        xAxis.renderer.ticks.template.stroke = am4core.color("#495C43");
+        //xAxis.renderer.ticks.template.stroke = am4core.color("#495C43");
         xAxis.renderer.ticks.template.strokeWidth = 2;
         xAxis.renderer.ticks.template.length = 10;
         yAxis.renderer.ticks.template.disabled = false;
         yAxis.renderer.ticks.template.strokeOpacity = 1;
-        yAxis.renderer.ticks.template.stroke = am4core.color("#495C43");
+        //yAxis.renderer.ticks.template.stroke = am4core.color("#495C43");
         yAxis.renderer.ticks.template.strokeWidth = 2;
         yAxis.renderer.ticks.template.length = 10;
         var i = 0;
@@ -208,8 +208,11 @@ function change_cursor_sel() {
     else if (cursor === "Y1") {
         cursor_val = document.getElementById("Y1").value;
     }
-    else {
+    else if (cursor === "Y2") {
         cursor_val = document.getElementById("Y2").value;
+    }
+    else {//Trigger
+        cursor_val = document.getElementById("Trigger").value;
     }
     if(old_cursor === "X1") {
         document.getElementById("X1").setAttribute("value",orig_val);
@@ -220,8 +223,11 @@ function change_cursor_sel() {
     else if (old_cursor === "Y1") {
         document.getElementById("Y1").setAttribute("value",orig_val);
     }
-    else {
+    else if (old_cursor === "Y2") {
         document.getElementById("Y2").setAttribute("value",orig_val);
+    }
+    else {//Trigger
+        document.getElementById("Trigger").setAttribute("value",orig_val);
     }
     document.getElementById("cursor_val").setAttribute("value",cursor_val);
     document.getElementById("old_cursor").setAttribute("value",cursor);
@@ -233,8 +239,11 @@ function change_cursor_val(amount) {
     if (cursor === "Y1" || cursor === "Y2") {
         width = parseFloat(document.getElementById("volt_width").value);
     }
-    else {
+    else if (cursor === "X1" || cursor === "X2") {
         width = parseFloat(document.getElementById("time_width").value);
+    }
+    else {
+        width = parseFloat(document.getElementById("volt_width").value);
     }
     var change = (1/amount) * width;
     var original = parseFloat(document.getElementById("cursor_val").value);
@@ -255,7 +264,10 @@ function change_cursor_val(amount) {
     else if (cursor === "Y1") {
         document.getElementById("Y1").setAttribute("value",(not_original).toString());
     }
-    else {
+    else if (cursor === "Y2") {
         document.getElementById("Y2").setAttribute("value",(not_original).toString());;
+    }
+    else {
+        document.getElementById("Trigger").setAttribute("value",(not_original).toString());
     }
 }

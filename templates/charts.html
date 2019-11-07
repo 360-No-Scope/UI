@@ -12,11 +12,12 @@
     <script src="https://www.amcharts.com/lib/4/geodata/germanyLow.js"></script>
     <style>
         .wrapper {
-            width: 1000px;
-            height: 500px;
+            width: 1100px;
+            height: 650px;
             /* whatever width you want */
             display: inline-block;
             position: relative;
+            column-span: 1;
         }
         .main {
             position: absolute;
@@ -29,115 +30,280 @@
             /* let's see it! */
             color: white;
         }
+        .generic {
+
+            background-image: url(/static/Background.PNG);
+            font-family: century-gothic, sans-serif;
+        }
+        .mainheader {
+            color: white;
+            background-color: rgb(136, 0, 236);
+            font-family: century-gothic, sans-serif;
+            font-style: normal;
+            font-weight: 400;
+        }
+        .select_cursor {
+            width: 100px;
+            padding: 8px 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: rgb(214,220,229);
+        }
+        .select_meas {
+            width: 200px;
+            padding: 8px 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: rgb(214, 220, 229);
+        }
+        .button {
+            width:50px;
+            padding: 9px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: black;
+            background-color: rgb(199,215,237);
+            font-family: century-gothic, sans-serif;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px #999;
+        }
+
+        .button:hover {background-color: rgb(216,190,236)}
+
+        .button:active {
+            background-color: #3e8e41;
+            box-shadow: 0 2px #666;
+            transform: translateY(4px);
+        }
+        .button2 {
+            width:150px;
+            padding: 9px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: black;
+            background-color: rgb(199,215,237);
+            font-family: century-gothic, sans-serif;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px #999;
+        }
+
+        .button2:hover {background-color: rgb(216,190,236)}
+
+        .button2:active {
+            background-color: #3e8e41;
+            box-shadow: 0 2px #666;
+            transform: translateY(4px);
+        }
+        .button_rem {
+            width:150px;
+            padding: 9px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: black;
+            background-color: rgb(199,215,237);
+            font-family: century-gothic, sans-serif;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px #999;
+        }
+
+        .button_rem:hover {background-color: rgb(216,190,236)}
+
+        .button_rem:active {
+            background-color: rgb(250,130,130);
+            box-shadow: 0 2px #666;
+            transform: translateY(4px);
+        }
+        .button_start {
+            width:100px;
+            padding: 9px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: white;
+            background-color: green;
+            font-family: century-gothic, sans-serif;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px #999;
+        }
+
+        .button_start:hover {background-color: #3e8e41}
+
+        .button_start:active {
+            background-color: #3e8e41;
+            box-shadow: 0 2px #666;
+            transform: translateY(4px);
+        }
+        .button_stop {
+            width:100px;
+            padding: 9px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: white;
+            background-color: red;
+            font-family: century-gothic, sans-serif;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            border-radius: 15px;
+            box-shadow: 0 5px #999;
+        }
+
+        .button_stop:hover {background-color: rgb(250,130,130)}
+
+        .button_stop:active {
+            background-color: #3e8e41;
+            box-shadow: 0 2px #666;
+            transform: translateY(4px);
+        }
+        ul {
+            background: white;
+            list-style-position: inside;
+            padding-inline-start: 5px;
+        }
+        ul li {
+            background: rgb(214,220,229);;
+            margin: 20px;
+            border-radius: 5px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 3px;
+        }
     </style>
 </head>
-<body>
+<body class="generic">
 <div>
-    <div>
-        <h1>360 N.O-Scope</h1>
-        <p>Right now it's just a sine wave.</p>
+    <div class="mainheader">
+        <h1>360 Network Oscilloscope (360 N.O-Scope)</h1>
+        <p>A Group 2® Product</p>
     </div>
 </div>
-<div id="chartArea">
+<div id="chartArea" style="column-count: 2;">
     <div class="wrapper" id="chart">
-        <p>Chart</p>
+        <!--<p>Chart</p>-->
         <div class="main" id="amChart">
             <!-- Chart goes in here -->
         </div>
     </div>
-
-</div>
-<div id="buttons" style="width: 600px; float: left;">
-    <form id="start_form" method="POST" action='#'>
-        <div id="StartDiv" style="width: 600px; float: left;">
-            <button type="submit" name="Start" value="1">Start</button>
+    <div id="measurements" style="column-span:1; width:200px; padding-left: 420px; text-align: left;">
+        <div><p>Measurements:</p></div>
+        <div>
+            <ul id="measure_list">
+              <!-- List goes in here ;) -->
+            </ul>
         </div>
-    </form>
-    <form id="stop_form" method="POST" action='#'>
-        <div id="StopDiv" style="width: 200px; float: left;">
-            <button type="submit" name="Stop" value="1">Stop</button>
-        </div>
-    </form>
-    <form id="hscales" method="POST" action="#">
-        <div id="scale" style="margin-left: 250px;">
-            <label for="hscale">Enter the scale in S/div</label>
-            <input type="text" name="hscale" id="hscale" required>
-            <input type="submit" value="Change Hscale!">
-
-        </div>
-    </form>
-    <form id="vscales" method="POST" action="#">
-        <div style="margin-left: 250px;">
-            <label for="vscale_submit">Enter the scale in V/div</label>
-            <input type="text" name="vscale" id="vscale" required>
-            <input type="submit" value="Change Vscale!">
-        </div>
-    </form>
-    <select id="measSelect">
-        <option value="Frequency">Frequency</option>
-        <option value="RMS_Voltage">RMS Voltage</option>
-        <option value="Pk-Pk_Voltage">Peak-Peak Voltage</option>
-        <option value="Period">Period</option>
-        <option value="Delta_Time">Delta Time</option>
-        <option value="Delta_Voltage">Delta Voltage</option>
-        <option value="Duty_Cycle">Duty Cycle</option>
-        <option value="Neg_Duty_Cycle">Negative Duty Cycle</option>
-        <option value="Rising_Count">Rising Edge Count</option>
-        <option value="Falling_Count">Falling Edge Count</option>
-    </select>
-    <form id="addmeas" method="POST">
-        <input type="submit" value="Add Meas.">
-    </form>
-    <form id="remmeas" method="POST">
-        <input type="submit" value="Remove Meas.">
-    </form>
-</div>
-<div id="measurements" style="margin-left: 620px;">
-    <div><p>Measurement List:</p></div>
-    <div>
-        <ul id="measure_list">
-          <!-- List goes in here ;) -->
-        </ul>
     </div>
-</div>
-<div id="cursors">
 
-    <form id="cursor_form" method="post">
-        <div>
-        <select id="cursor_select" onchange=change_cursor_sel()>
-            <option value="X1">X1</option>
-            <option value="X2">X2</option>
-            <option value="Y1">Y1</option>
-            <option value="Y2">Y2</option>
-        </select>
-        </div>
-        <div>
-            <input type="submit" id="big_reduce" value="<<" onclick="change_cursor_val(-10)">
-            <input type="submit" id="small_reduce" value="<" onclick="change_cursor_val(-100)">
-            <input type="text" id="cursor_val" value="0.0" readonly>
-            <input type="submit" id="small_increase" value=">" onclick="change_cursor_val(100)">
-            <input type="submit" id="big_increase" value=">>" onclick="change_cursor_val(10)">
-            <input type="hidden" id="X1" value="0.0">
-            <input type="hidden" id="X2" value="0.0">
-            <input type="hidden" id="Y2" value="0.0">
-            <input type="hidden" id="Y1" value="0.0">
-            <input type="hidden" id="time_width" value="0.0">
-            <input type="hidden" id="volt_width" value="0.0">
-            <input type="hidden" id="old_cursor" value="X1">
-        </div>
-    </form>
 </div>
-<div>
-    <form id="hoffset_form" method="post">
-    <label for="hoffset">Horizontal Offset (S)</label>
-    <input type="text" id="hoffset" value="0.0">
-    <input type="submit" id="hoffset_sub" value="Submit">
-    </form>
-    <form id="voffset_form" method="post">
-    <label for="voffset">Vertical Offset (V)</label>
-    <input type="text" id="voffset" value="0.0">
-    <input type="submit" id="voffset_sub" value="Submit">
-    </form>
+<div style="height: 310px; width: 100%;">
+    <div id="buttons" style="width: 100%; height:50%;float: left;">
+        <div id="start_stop_div" style="width: 10%; float: left;">
+        <form id="start_form" method="POST" action='#'>
+            <div id="StartDiv">
+                <button type="submit" name="Start" value="1" class="button_start">Start</button>
+            </div>
+        </form>
+        <form id="stop_form" method="POST" action='#'>
+            <div id="StopDiv">
+                <button type="submit" name="Stop" value="1" class="button_stop">Stop</button>
+            </div>
+        </form>
+        </div>
+        <div id="scaling_div" style="width: 50%; float: left;">
+        <form id="hscales" method="POST" action="#">
+            <div id="scale">
+                <label for="hscale">Enter the scale in S/div</label>
+                <input type="text" name="hscale" id="hscale" required>
+                <input type="submit" value="Scale!" class="button2">
+
+            </div>
+        </form>
+        <form id="vscales" method="POST" action="#">
+            <div>
+                <label for="vscale_submit">Enter the scale in V/div</label>
+                <input type="text" name="vscale" id="vscale" required>
+                <input type="submit" value="Scale!" class="button2">
+            </div>
+        </form>
+        <form id="hoffset_form" method="post">
+            <label for="hoffset">Horizontal Offset (S)</label>
+            <input type="text" id="hoffset" value="0.0">
+            <input type="submit" id="hoffset_sub" value="Submit" class="button2">
+            </form>
+            <form id="voffset_form" method="post">
+            <label for="voffset">Vertical Offset (V)</label>
+            <input type="text" id="voffset" value="0.0">
+            <input type="submit" id="voffset_sub" value="Submit" class="button2">
+        </form>
+        </div>
+        <div id="meas_div" style="width: 15%; float:left;">
+        <select id="measSelect" class="select_meas">
+            <option value="Frequency">Frequency</option>
+            <option value="RMS_Voltage">RMS Voltage</option>
+            <option value="Pk-Pk_Voltage">Peak-Peak Voltage</option>
+            <option value="Period">Period</option>
+            <option value="Delta_Time">Delta Time</option>
+            <option value="Delta_Voltage">Delta Voltage</option>
+            <option value="Duty_Cycle">Duty Cycle</option>
+            <option value="Neg_Duty_Cycle">Negative Duty Cycle</option>
+            <option value="Rising_Count">Rising Edge Count</option>
+            <option value="Falling_Count">Falling Edge Count</option>
+        </select>
+        <form id="addmeas" method="POST">
+            <input type="submit" value="Add Meas." class="button2">
+        </form>
+        <form id="remmeas" method="POST">
+            <input type="submit" value="Remove Meas." class="button_rem">
+        </form>
+        </div>
+    </div>
+
+    <div id="cursors">
+        <div><p>Cursor Select and Movement</p></div>
+        <form id="cursor_form" method="post">
+            <div>
+                <select id="cursor_select" onchange=change_cursor_sel(); class="select_cursor">
+                    <option value="X1">X1</option>
+                    <option value="X2">X2</option>
+                    <option value="Y1">Y1</option>
+                    <option value="Y2">Y2</option>
+                    <option value="Trigger">Trigger</option>
+                </select>
+            </div>
+            <div>
+                <input type="submit" id="big_reduce" value="<<" onclick="change_cursor_val(-10)" class="button">
+                <input type="submit" id="small_reduce" value="<" onclick="change_cursor_val(-100)" class="button">
+                <input type="text" id="cursor_val" value="0.0" readonly>
+                <input type="submit" id="small_increase" value=">" onclick="change_cursor_val(100)" class="button">
+                <input type="submit" id="big_increase" value=">>" onclick="change_cursor_val(10)" class="button">
+                <input type="hidden" id="X1" value="0.0">
+                <input type="hidden" id="X2" value="0.0">
+                <input type="hidden" id="Y2" value="0.0">
+                <input type="hidden" id="Y1" value="0.0">
+                <input type="hidden" id="time_width" value="0.0">
+                <input type="hidden" id="volt_width" value="0.0">
+                <input type="hidden" id="Trigger" value="0.0">
+                <input type="hidden" id="old_cursor" value="X1">
+            </div>
+        </form>
+    </div>
+
 </div>
 <script>
     var big_chart = initChart();
