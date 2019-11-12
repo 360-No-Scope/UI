@@ -16,6 +16,7 @@ function socketStart(chart_data){
         var v_scale = msg.ch1.vscale;
         console.log(h_scale + "horizontal");
         console.log(v_scale + "verticle");
+        //console.log(msg.ch3.toString());
         if (yAxis.max !== 4*v_scale) {
             yAxis.max = 4*v_scale;
             yAxis.min = -4*v_scale;
@@ -24,10 +25,51 @@ function socketStart(chart_data){
             xAxis.max = 4*h_scale;
             xAxis.min = -4*h_scale;
         }
-        console.log(xAxis.max);
-        console.log(xAxis.min);
-        console.log(yAxis.max);
-        console.log(yAxis.min);
+        //console.log(xAxis.max);
+        //console.log(xAxis.min);
+        //console.log(yAxis.max);
+        //console.log(yAxis.min);
+        var frequency = msg.ch1.meas[0];
+        var pkpk = msg.ch1.meas[1];
+        var period = msg.ch1.meas[2];
+        var delta_time = msg.ch1.meas[3];
+        var delta_volt = msg.ch1.meas[4];
+        var duty = msg.ch1.meas[5];
+        var neg_duty = msg.ch1.meas[6];
+        var rising_cnt = msg.ch1.meas[7];
+        var falling_cnt = msg.ch1.meas[8];
+        // Checking and updating measurements list
+        for(var i =0; i<measList.length;i++)
+        {
+            if (measList[i] === "Frequency") {
+                document.getElementById("Frequency").innerHTML = ("Frequency: " + frequency.toString() + "Hz");
+            }
+            else if (measList[i] === "Pk-Pk_Voltage") {
+                document.getElementById("Pk-Pk_Voltage").innerHTML = ("Pk-Pk Voltage: " + pkpk.toString() + "V");
+            }
+            else if (measList[i] === "Period") {
+                document.getElementById("Period").innerHTML = ("Period: " + period.toString() + "s");
+            }
+            else if (measList[i] === "Delta_Time") {
+                document.getElementById("Delta_Time").innerHTML = ("Delta Time: " + delta_time.toString() + "s");
+            }
+            else if (measList[i] === "Delta_Voltage") {
+                document.getElementById("Delta_Voltage").innerHTML = ("Delta Voltage: " + delta_volt.toString() + "V");
+            }
+            else if (measList[i] === "Duty_Cycle") {
+                document.getElementById("Duty_Cycle").innerHTML = ("Duty Cycle: " + duty.toString());
+            }
+            else if (measList[i] === "Rising_Count") {
+                document.getElementById("Rising_Count").innerHTML = ("Rising Count: " + rising_cnt.toString());
+            }
+            else if (measList[i] === "Neg_Duty_Cycle") {
+                document.getElementById("Neg_Duty_Cycle").innerHTML = ("Negative Duty Cycle: " + neg_duty.toString());
+            }
+            else if (measList[i] === "Falling_Count") {
+                document.getElementById("Falling_Count").innerHTML = ("Falling Count: " + falling_cnt.toString());
+            }
+        }
+        console.log(msg.ch1.meas.toString());
         xAxis.renderer.ticks.template.disabled = false;
         xAxis.renderer.ticks.template.strokeOpacity = 1;
         //xAxis.renderer.ticks.template.stroke = am4core.color("#495C43");
@@ -161,10 +203,31 @@ function socketStart(chart_data){
         return false;
     });
     $('form#cursor_form').submit(function(event) {
+        console.log("Owo did you click me dadee?");
         var cursor = document.getElementById('cursor_select').value;
-        //TODO:Validate input and convert to standard unit
-        //console.log(cursor);
+        var cursorX1 = parseFloat(document.getElementById("X1").value);
+        var cursorX2 = parseFloat(document.getElementById("X2").value);
+        var cursorY1 = parseFloat(document.getElementById("Y1").value);
+        var cursorY2 = parseFloat(document.getElementById("Y2").value);
+        var trigga = parseFloat(document.getElementById("Trigger").value);
 
+        if (cursor === "X1") {
+            cursorX1 = parseFloat(document.getElementById("X1").value);
+        }
+        else if (cursor === "X2") {
+            cursorX2 = parseFloat(document.getElementById("X2").value);
+        }
+        else if (cursor === "Y1") {
+            cursorY1 = parseFloat(document.getElementById("Y1").value);
+        }
+        else if (cursor === "Y2") {
+            cursorY2 = parseFloat(document.getElementById("Y2").value);
+        }
+        else {//Trigger
+            trigga = parseFloat(document.getElementById("Trigger").value);
+        }
+        socket.emit('cursors',{data: [cursorX1,cursorX2,cursorY1,cursorY2,trigga]});
+        console.log("Sent my load uwu");
         return false;
     });
     $('form#hoffset_form').submit(function(event) {
