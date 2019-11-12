@@ -168,16 +168,15 @@ function socketStart(chart_data){
         return false;
     });
     $('form#hoffset_form').submit(function(event) {
-
+        socket.emit('offset', {data: ['horizontal', document.getElementById('hoffset').value]});
         //console.log(cursor);
 
         return false;
     });
     $('form#voffset_form').submit(function(event) {
-        var cursor = document.getElementById('cursor_select').value;
-        //TODO:Validate input and convert to standard unit
+        //var cursor = document.getElementById('cursor_select').value;
         //console.log(cursor);
-
+        socket.emit('offset', {data: ['vertical', document.getElementById('voffset').value]});
         return false;
     });
 }
