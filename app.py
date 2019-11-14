@@ -64,9 +64,9 @@ class RandomThread(Thread):
         while not thread_stop_event.isSet():
             global pls_run
             if pls_run:
-                sine_wave = np.sin(i * omega * np.linspace(-10, 10, 1000))
+                sine_wave = np.sin(i * omega * np.linspace(-10, 10, 512))
                 sine_wave2 = 2 * sine_wave
-                time_vals = np.linspace(-10, 10, 1000)
+                time_vals = np.linspace(-10, 10, 512)
                 sine_wave = sine_wave + voffset
                 time_vals = time_vals + hoffset
                 cursors = {'x1': x1_cursor, 'x2': x2_cursor, 'y1': y1_cursor, 'y2': y2_cursor}
