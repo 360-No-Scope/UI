@@ -33,6 +33,11 @@ function initChart() {
     series5.dataFields.valueX = "timeXC2";
     series5.dataFields.valueY = "valueXC2";
     series5.name = "Cursor X2";
+
+    var series6 = chart.series.push(new am4charts.LineSeries());
+    series6.dataFields.valueX = "timeTrigga";
+    series6.dataFields.valueY = "valueTrigga";
+    series6.name = "Trigger";
 /*    var series2 = chart.series.push(new am4charts.LineSeries());
     series2.name = "Channel 2";
     series2.dataFields.valueY = "value2";

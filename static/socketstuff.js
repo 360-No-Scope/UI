@@ -86,10 +86,13 @@ function socketStart(chart_data){
         var cursorX2 = parseFloat(document.getElementById("X2").value);
         var cursorY1 = parseFloat(document.getElementById("Y1").value);
         var cursorY2 = parseFloat(document.getElementById("Y2").value);
+        var trigga = parseFloat(document.getElementById("Trigger").value);
         var xcursor_max = yAxis.max;
         var xcursor_min = yAxis.min;
         var ycursor_max = xAxis.max;
         var ycursor_min = xAxis.min;
+        var trigga_max = xAxis.max;
+        var trigga_min = xAxis.min;
         var y_cursor_times_1 = [ycursor_min, ycursor_max];
         var y_cursor_times_2 = [ycursor_min, ycursor_max];
         var x_cursor_times_1 = [cursorX1, cursorX1];
@@ -98,6 +101,8 @@ function socketStart(chart_data){
         var y_cursor_volts_2 = [cursorY2, cursorY2];
         var x_cursor_volts_1 = [xcursor_max, xcursor_min];
         var x_cursor_volts_2 = [xcursor_max, xcursor_min];
+        var trigga_times = [trigga_min, trigga_max];
+        var trigga_volts = [trigga, trigga]
         document.getElementById("time_width").setAttribute("value", (8 * h_scale).toString());
         document.getElementById("volt_width").setAttribute("value", (8 * v_scale).toString());
 
@@ -108,7 +113,8 @@ function socketStart(chart_data){
                     'timeXC1': parseFloat(x_cursor_times_1[i]), 'valueXC1': parseFloat(x_cursor_volts_1[i]),
                     'timeXC2': parseFloat(x_cursor_times_2[i]), 'valueXC2': parseFloat(x_cursor_volts_2[i]),
                     'valueYC1': parseFloat(y_cursor_volts_1[i]), 'timeYC1': parseFloat(y_cursor_times_1[i]),
-                    'valueYC2': parseFloat(y_cursor_volts_2[i]), 'timeYC2': parseFloat(y_cursor_times_2[i])
+                    'valueYC2': parseFloat(y_cursor_volts_2[i]), 'timeYC2': parseFloat(y_cursor_times_2[i]),
+                    'valueTrigga':parseFloat(trigga_volts[i]),'timeTrigga':parseFloat(trigga_times[i])
                 });
             } else {
                 datum.push({'time': Number(time_vals[i]), 'value': Number(ch1_vals[i])});
