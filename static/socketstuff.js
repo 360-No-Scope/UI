@@ -105,7 +105,7 @@ function socketStart(chart_data){
         var x_cursor_volts_2 = [xcursor_max, xcursor_min];
         var trigga_times = [trigga_min, trigga_max];
         var trigga_volts = [trigga, trigga]
-        document.getElementById("time_width").setAttribute("value", (8 * h_scale).toString());
+        document.getElementById("time_width").setAttribute("value", (h_scale).toString());
         document.getElementById("volt_width").setAttribute("value", (8 * v_scale).toString());
 
         for (i = 0; i < ch1_vals.length; i++) {
