@@ -5,8 +5,8 @@ function initChart() {
     valueAxis.max = 7;
     valueAxis.min = -7;
     //timeAxis.strictMinMax = true;
-    timeAxis.max = 10;
-    timeAxis.min = -10;
+    timeAxis.max = 1;
+    timeAxis.min = -1;
     timeAxis.title.text = "Time (s)";
 
     var series = chart.series.push(new am4charts.LineSeries());

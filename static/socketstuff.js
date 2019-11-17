@@ -14,19 +14,21 @@ function socketStart(chart_data){
         var time_vals = msg.ch1.time;
         var h_scale = msg.ch1.hscale;
         var v_scale = msg.ch1.vscale;
-        console.log(h_scale + "horizontal");
-        console.log(v_scale + "verticle");
+        console.log(h_scale + " horizontal");
+        console.log(v_scale + " verticle");
         //console.log(msg.ch3.toString());
         if (yAxis.max !== 4*v_scale) {
             yAxis.max = 4*v_scale;
             yAxis.min = -4*v_scale;
         }
-        if (xAxis.max !== 4*h_scale) {
-            xAxis.max = 4*h_scale;
-            xAxis.min = -4*h_scale;
+        if (xAxis.max !== Math.abs(h_scale/2)) {
+            console.log("Adjusting dadeee");
+            xAxis.max = Math.abs(h_scale/2.0);
+            console.log(Math.abs(h_scale/2.0));
+            xAxis.min = -Math.abs(h_scale/2.0);
         }
-        //console.log(xAxis.max);
-        //console.log(xAxis.min);
+        console.log(xAxis.max);
+        console.log(xAxis.min);
         //console.log(yAxis.max);
         //console.log(yAxis.min);
         var frequency = msg.ch1.meas[0];

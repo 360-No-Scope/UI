@@ -36,10 +36,13 @@ y1_cursor = 0
 x2_cursor = 0
 y2_cursor = 0
 trigga = 0
+global delayy
+delayy = 1
 
 class RandomThread(Thread):
     def __init__(self):
-        self.delay = 1
+        global delayy
+        self.delay = delayy
         super(RandomThread, self).__init__()
 
     def random_number_generator(self):
@@ -49,6 +52,8 @@ class RandomThread(Thread):
         global voffset
         global hoffset
         global trigga
+        global delayy
+        self.delay = delayy
         """
         Generate a random number every 1 second and emit to a socketio instance (broadcast)
         Ideally to be run in a separate thread?
@@ -64,6 +69,8 @@ class RandomThread(Thread):
         while not thread_stop_event.isSet():
             global pls_run
             if pls_run:
+                socketio.emit('datapls', {'pls': 'pls'})
+
                 sine_wave = np.sin(i * omega * np.linspace(-10, 10, 512))
                 sine_wave2 = 2 * sine_wave
                 time_vals = np.linspace(-10, 10, 512)
@@ -246,6 +253,7 @@ def print_stuff4(data):
     y2_cursor = float(data['data'][3])
     trigga = float(data['data'][4])
 
+
 @socketio.on('scales', namespace='/test')
 def print_stuff3(data):
     print('Uh oh, stinky')
@@ -254,9 +262,19 @@ def print_stuff3(data):
     if data['data'][0] == 'hageman':
         global hscale
         hscale = float(data['data'][1])
+        global delayy
+        if hscale > 1:
+            delayy = hscale
+        else:
+            delayy = 1
+        div_data = calculate_divisor(hscale)
+        divisor = div_data['divisor']
+        socketio.emit('divisor', {'scales': [vscale, hscale]}, namespace='/test')
+
     else:
         global vscale
         vscale = float(data['data'][1])
+    print("I emitted it daddee")
 
 
 @socketio.on('connect', namespace='/test')
@@ -276,6 +294,9 @@ def test_connect():
 def test_disconnect():
     print('Client disconnected')
 
+
+def calculate_divisor(window_length):
+    samples_per_sec =
 
 if __name__ == '__main__':
     socketio.run(app)
