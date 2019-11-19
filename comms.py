@@ -35,6 +35,7 @@ else:
 if isPi:
     # do all the weird startup stuff
     # run startup code
+    flipper.off()
     test_stuff = 1  # PLACEHOLDER
 
 # Instantiate socketIO
