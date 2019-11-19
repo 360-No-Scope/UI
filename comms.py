@@ -10,7 +10,7 @@ import gpiozero as gp
 isPi = False
 
 if isPi:
-    ser = serial.Serial('dev/ttyAMA0', 115200, timeout=1)
+    ser = serial.Serial('/dev/ttyS0', 115200, timeout=1)
     print(ser.name)
 
     # GPIO Pins
