@@ -17,15 +17,19 @@ function socketStart(chart_data){
         console.log(h_scale + " horizontal");
         console.log(v_scale + " verticle");
         //console.log(msg.ch3.toString());
-        if (yAxis.max !== 4*v_scale) {
-            yAxis.max = 4*v_scale;
-            yAxis.min = -4*v_scale;
+        if (yAxis.max !== v_scale/2.0) {
+            yAxis.max = v_scale/2.0;
+            yAxis.min = -v_scale/2.0;
         }
         if (xAxis.max !== Math.abs(h_scale/2)) {
             console.log("Adjusting dadeee");
             xAxis.max = Math.abs(h_scale/2.0);
             console.log(Math.abs(h_scale/2.0));
             xAxis.min = -Math.abs(h_scale/2.0);
+        }
+        if (xAxis.max !== -xAxis.min) {
+            console.log("Wu oh it's uneven Kimmy pie");
+            xAxis.min = -xAxis.max
         }
         console.log(xAxis.max);
         console.log(xAxis.min);
@@ -106,7 +110,7 @@ function socketStart(chart_data){
         var trigga_times = [trigga_min, trigga_max];
         var trigga_volts = [trigga, trigga]
         document.getElementById("time_width").setAttribute("value", (h_scale).toString());
-        document.getElementById("volt_width").setAttribute("value", (8 * v_scale).toString());
+        document.getElementById("volt_width").setAttribute("value", (v_scale).toString());
 
         for (i = 0; i < ch1_vals.length; i++) {
             if (i < x_cursor_times_1.length) {
