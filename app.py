@@ -28,6 +28,7 @@ global y1_cursor
 global x2_cursor
 global y2_cursor
 global trigga
+global data_scalar
 pls_run = False
 voffset = 0
 hoffset = 0
@@ -38,6 +39,7 @@ y2_cursor = 0
 trigga = 0
 global delayy
 delayy = 1
+data_scalar = 10  # TODO: INSERT DEFAULT VALUE HERE 10 is BAD
 
 class RandomThread(Thread):
     def __init__(self):
@@ -151,24 +153,47 @@ def print_stuff3(data):
 
     else:
         global vscale
+        global data_scalar
         vscale = float(data['data'][1])
+        data_scalar = find_relay(vscale)
 
 
 @socketio.on('big_woad2', namespace='/test')
 def format_n_send(data):
+    samples_per_window = 256
     sine_wave_raw = data['data']
     sine_wave = np.array(sine_wave_raw)
+    threshold_high = 237
+    threshold_low = 18
     # TODO: Scale data according to vscale stuff
+
     sample_offset = calculate_samples(hscale, hoffset)
-    if 767-sample_offset > 1023:
-        sample_offset = -255
-    elif 255-sample_offset < 0:
-        sample_offset = 255
+
+    # Limit min/max of offset
+    if sample_offset > 127:
+        sample_offset = 127
+    elif sample_offset < -127:
+        sample_offset = -127
+    first_quarter = (2*samples_per_window) * .25 - 1
+    third_quarter = (2*samples_per_window) * .75 - 1
+    # Debug for offset
     print("Sample Offset: " + str(sample_offset))
-    sine_wave = sine_wave[255-sample_offset:767-sample_offset]
-    time_vals = np.linspace(-abs(hscale/2.0), abs(hscale/2.0), 512)
+
+    # Get real waveform with middle 256 Bytes adjusted for by horizontal offset
+    sine_wave = sine_wave[first_quarter-sample_offset:third_quarter-sample_offset]
+
+    # Bring down to -127-128
+    # If we can't scale anymore, then
+    global data_scalar
+    sine_wave =
+
+    # Generate time values
+    time_vals = np.linspace(-abs(hscale/2.0), abs(hscale/2.0), samples_per_window)
+
+    # Vertical Offset
     sine_wave = sine_wave + voffset
-    #time_vals = time_vals + hoffset
+
+    # Grab measurements of fully scaled data
     cursors = {'x1': x1_cursor, 'x2': x2_cursor, 'y1': y1_cursor, 'y2': y2_cursor}
     measurements = get_measurements(cursors, sine_wave.tolist(), time_vals.tolist(), trigga)
     print(measurements)
@@ -311,17 +336,55 @@ def test_disconnect():
 
 
 def calculate_divisor(window_length):
-    divisor = round(25e6 / (512 / window_length))
-    print(divisor)
-    new_window_length = 1.0/(25e6/divisor/512)
-    div_dict = {'divisor': divisor, 'window': new_window_length}
+
+    # constants
+    samples_per_window = 256.0  # unit: samples
+    base_sampling_freq = 25e6  # unit: Hz (1/s)
+    base_period = 1.0/base_sampling_freq  # unit: s
+
+    # Calculate Divisor
+    seconds_per_sample = window_length/samples_per_window  # seconds/sample
+    divisor = round(seconds_per_sample/base_period)  # Unit: unit-less, it's a scalar
+
+    # Calculate New Window Length
+    base_sampling_freq = 25e6
+    base_period = 1.0/base_sampling_freq
+    new_period = base_period*divisor
+    new_sampling_freq = 1.0/new_period  # units = samples/sec
+    new_window = 1.0/(new_sampling_freq/samples_per_window)
+    div_dict = {'divisor': divisor, 'window': new_window}
     return div_dict
 
 
 def calculate_samples(window_length, h_offset):
-    samples_per_sec = 512.0/window_length
-    sample_offset = round(h_offset*samples_per_sec)
+    samples_per_window = 256.0  # Unit: Samples
+    samples_per_sec = samples_per_window/window_length  # Unit: Samples/Sec
+    sample_offset = round(h_offset * samples_per_sec)  # Unit: Samples
     return sample_offset
+
+
+def find_relay(v_scale):
+
+    percent_bad = 20
+    relay_list = np.array([69, 420, 911]) # This is bad
+    # V-Scale is in pkpk form
+    desired_relay = (1+(percent_bad/100))*v_scale
+    fitting_relay_list = relay_list[relay_list >= v_scale]
+    if fitting_relay_list.size == 0:
+        # Uhhhhhh this ain't gonna work chief
+        set_relay = float(min(relay_list))
+    else:
+        set_relay = float(fitting_relay_list.max())
+    return set_relay
+
+
+
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
