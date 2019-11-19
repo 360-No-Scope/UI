@@ -7,10 +7,10 @@ import serial
 import gpiozero as gp
 
 # DO NOT TURN TRUE UNLESS THIS IS THE PI
-isPi = False
+isPi = True
 
 if isPi:
-    ser = serial.Serial('/dev/ttyS0', 115200, timeout=1)
+    ser = serial.Serial('/dev/ttyS0', 115200, timeout=None)
     print(ser.name)
 
     # GPIO Pins
@@ -21,12 +21,12 @@ if isPi:
     pi_single = gp.LED("BOARD23")
 
     # Relay GPIOs
-    relay1 = gp.LED("BOARD_27")
-    relay2 = gp.LED("BOARD_29")
-    relay3 = gp.LED("BOARD_31")
-    relay4 = gp.LED("BOARD_33")
-    relay5 = gp.LED("BOARD_35")
-    relay6 = gp.LED("BOARD_37")
+    relay1 = gp.LED("BOARD27")
+    relay2 = gp.LED("BOARD29")
+    relay3 = gp.LED("BOARD31")
+    relay4 = gp.LED("BOARD33")
+    relay5 = gp.LED("BOARD35")
+    relay6 = gp.LED("BOARD37")
     relay_gpios = [relay1, relay2, relay3, relay4, relay5, relay6]
 
 else:
