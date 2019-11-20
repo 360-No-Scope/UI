@@ -36,8 +36,14 @@ function socketStart(chart_data){
         //console.log(yAxis.max);
         //console.log(yAxis.min);
         var frequency = msg.ch1.meas[0];
+        if (frequency === 69420) {
+            frequency = Infinity;
+        }
         var pkpk = msg.ch1.meas[1];
         var period = msg.ch1.meas[2];
+        if (period === 69420) {
+            period = Infinity;
+        }
         var delta_time = msg.ch1.meas[3];
         var delta_volt = msg.ch1.meas[4];
         var duty = msg.ch1.meas[5];
