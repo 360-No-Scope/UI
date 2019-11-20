@@ -151,10 +151,13 @@ def print_data3(data):
         trigga = 1
 
     if isPi:
-        ser.write(0x66)
-        ser.write(trigga)
-        print("Sent trigga Mr. Fuzzy Balls")
-        print(hex(trigga))
+        try:
+            ser.write(0x66)
+            ser.write(trigga)
+            print("Sent trigga Mr. Fuzzy Balls")
+        except:
+            print("SERIAL ERROR")
+        print("Trigga: " + hex(trigga))
     else:
         print("Serial Not Sent (Pi: Disabled): " + '[0x66, ' + hex(trigga) + "]")
 
