@@ -9,7 +9,7 @@ import gpiozero as gp
 old_data = []
 
 # DO NOT TURN TRUE UNLESS THIS IS THE PI
-isPi = False
+isPi = True
 
 if isPi:
     ser = serial.Serial('/dev/ttyS0', 115200, timeout=None)
@@ -30,13 +30,6 @@ if isPi:
     relay5 = gp.LED("BOARD35")
     relay6 = gp.LED("BOARD37")
     relay_gpios = [relay1, relay2, relay3, relay4, relay5, relay6]
-
-    # do all the weird startup stuff
-    for relay in relay_gpios:
-        relay.on()
-    time.sleep(60)
-    for relay in relay_gpios:
-        relay.off()
 
     # run startup code
     flipper.off()
