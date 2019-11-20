@@ -34,7 +34,7 @@ error_plagueis = [105, 100, 32, 121, 111, 117, 32, 101, 118, 101, 114, 32, 104, 
                   101, 32, 115, 111, 32, 112, 111, 119, 101, 114, 102, 117, 108, 32, 116, 104, 101, 32, 111, 110, 108,
                   121, 32, 116, 104, 105, 110, 103, 32, 104, 101, 32, 119, 97, 115, 32, 97, 102, 114, 97, 105, 100, 46]
 
-isPi = True
+isPi = False
 
 if isPi:
     ser = serial.Serial('/dev/ttyS0', 115200, timeout=.75)
@@ -153,7 +153,6 @@ def print_data3(data):
     if isPi:
         try:
             ser.write([0x66])
-            ser.write([trigga])
             print("Sent trigga Mr. Fuzzy Balls")
         except:
             print("SERIAL ERROR")
@@ -165,7 +164,7 @@ def print_data3(data):
 @sio.on('relays', namespace='/test')
 def change_relays(data):
     # Constant Table that my sweet matt will provide
-    relay_hex = [0x12, 0x1A, 0x02, 0x08, 0x10, 0x18, 0x13, 0x1B, 0x0C, 0x14, 0x01, 0x09, 0x11, 0x19,
+    relay_hex = [0x12, 0x1A, 0x00, 0x08, 0x10, 0x18, 0x13, 0x1B, 0x0C, 0x14, 0x01, 0x09, 0x11, 0x19,
                  0x05, 0x0D, 0x15, 0x1D, 0x25]
     scalar_list = [0.287, 0.251125, 0.125563, 0.10045, 0.07175, 0.062781, 0.0574, 0.050225, 0.04018, 0.0287, 0.025113,
                    0.02009, 0.01435, 0.012556, 0.010045, 0.008036, 0.00574, 0.005023, 0.002009]

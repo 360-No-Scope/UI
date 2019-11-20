@@ -263,7 +263,6 @@ def format_n_send(data):
     # Scale down numbers to real voltage values
     sine_wave_scaled = sine_wave_adjusted * data_scalar
     # Generate time values with "0s" in the center
-    # TODO: Talk to matt about this, I don't think this is right, maybe sampling_rate*samples + and -
     time_vals = np.linspace(-abs(hscale/2.0), abs(hscale/2.0), samples_per_window)
     # print(time_vals)
     # Use Vertical Offset (filthily easy software implementation)

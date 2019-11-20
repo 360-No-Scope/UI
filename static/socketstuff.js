@@ -60,7 +60,7 @@ function socketStart(chart_data){
                 document.getElementById("Pk-Pk_Voltage").innerHTML = ("Pk-Pk Voltage: " + pkpk.toString() + "V");
             }
             else if (measList[i] === "Period") {
-                document.getElementById("Period").innerHTML = ("Period: " + period.toString() + "s");
+                document.getElementById("Period").innerHTML = ("Period: " + period.toString() + " s");
             }
             else if (measList[i] === "Delta_Time") {
                 document.getElementById("Delta_Time").innerHTML = ("Delta Time: " + delta_time.toString() + "s");
