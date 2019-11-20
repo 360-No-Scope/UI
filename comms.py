@@ -62,10 +62,8 @@ def print_data69(data):
         print("Flipper")
         uint8_list = []
         # Serial Read 512B
-        try:
-            data = ser.read(512)
-        except:
-            print("punish me daddy~ nyea~")
+        data = ser.read(512)
+
 
         # print("kisses you and lickies your necky")
         # Format Data to be 0-255 ints not bytes types
