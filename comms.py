@@ -90,11 +90,11 @@ def print_data69(data):
             data = error_plagueis
         # print("kisses you and lickies your necky")
         # Format Data to be 0-255 ints not bytes types
-        for item in data:
-            uint8_list.append(int(item))
-        mean_list = sum(uint8_list) / len(uint8_list)
-        if mean_list <= 26 and old_data != []:
-            old_data = uint8_list
+        #for item in data:
+        #    uint8_list.append(int(item))
+        #mean_list = sum(uint8_list) / len(uint8_list)
+        #if mean_list <= 26 and old_data != []:
+        #    old_data = uint8_list
         # Send Data
         sio.emit('big_woad2', {'data': uint8_list}, namespace='/test')
         flipper.off()
