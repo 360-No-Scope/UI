@@ -131,9 +131,9 @@ def print_data2(data):
     y1, y2, y3, y4 = int_to_four_bytes(divisor & 0xFFFFFFFF)
     bytes_list = [y4, y3, y2, y1]
     if isPi:
-        ser.write(0x69)
+        ser.write([0x69])
         for byte in bytes_list:
-            ser.write(byte)
+            ser.write([byte])
     else:
         print("Divisor: " + str(divisor))
         print("Divisor Bytes: ")
@@ -152,8 +152,8 @@ def print_data3(data):
 
     if isPi:
         try:
-            ser.write(0x66)
-            ser.write(trigga)
+            ser.write([0x66])
+            ser.write([trigga])
             print("Sent trigga Mr. Fuzzy Balls")
         except:
             print("SERIAL ERROR")
