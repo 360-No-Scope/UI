@@ -56,13 +56,6 @@ if isPi:
     relay6 = gp.LED("BOARD37")
     relay_gpios = [relay1, relay2, relay3, relay4, relay5, relay6]
 
-    # do all the weird startup stuff
-    for relay in relay_gpios:
-        relay.on()
-    time.sleep(60)
-    for relay in relay_gpios:
-        relay.off()
-
     # run startup code
     flipper.off()
     test_stuff = 1  # PLACEHOLDER
