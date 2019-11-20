@@ -234,6 +234,9 @@ def format_n_send(data):
     sine_wave_raw = data['data']
     if sine_wave_raw == error_plagueis:
         print("SERIAL ERROR!!!")
+    elif sine_wave_raw == [] or sine_wave_raw == [0]:
+        print("SERIAL ERROR!!!")
+        sine_wave_raw = error_plagueis
     sine_wave_numpy = np.array(sine_wave_raw)
 
     # Convert horizontal offset to samples

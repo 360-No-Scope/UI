@@ -92,7 +92,8 @@ def print_data69(data):
         # Format Data to be 0-255 ints not bytes types
         for item in data:
             uint8_list.append(int(item))
-
+        if uint8_list == [] or uint8_list == [0]:
+            uint8_list = error_plagueis
         sio.emit('big_woad2', {'data': uint8_list}, namespace='/test')
         flipper.off()
     else:
