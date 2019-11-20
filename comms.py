@@ -6,8 +6,10 @@ import math
 import serial
 import gpiozero as gp
 
+old_data = []
+
 # DO NOT TURN TRUE UNLESS THIS IS THE PI
-isPi = True
+isPi = False
 
 if isPi:
     ser = serial.Serial('/dev/ttyS0', 115200, timeout=None)
@@ -55,6 +57,7 @@ def connect():
 # It reads the 512 bytes from serial, processes the bytes, and then moves on
 @sio.on('big_woad', namespace='/test')
 def print_data69(data):
+    global old_data
     print("Weady for your woad chaddy daddy o3o")
     if isPi:
         # GPIO FLip
@@ -63,13 +66,13 @@ def print_data69(data):
         uint8_list = []
         # Serial Read 512B
         data = ser.read(512)
-
-
         # print("kisses you and lickies your necky")
         # Format Data to be 0-255 ints not bytes types
         for item in data:
             uint8_list.append(int(item))
-
+        mean_list = sum(uint8_list) / len(uint8_list)
+        if mean_list <= 26 and old_data != []:
+            old_data = uint8_list
         # Send Data
         sio.emit('big_woad2', {'data': uint8_list}, namespace='/test')
         flipper.off()
@@ -83,8 +86,8 @@ def print_data69(data):
 def gen_false_data():
     freq = 10  # Hz
     omega2 = 2 * np.pi * freq
-    sine_wave = 255*(np.sin(omega2 * np.linspace(-1, 1, 512)))
-    zero_to_ff_wave = (sine_wave[sine_wave >= 0]).round()
+    sine_wave = 223*(np.sin(omega2 * np.linspace(-1, 1, 512)))
+    zero_to_ff_wave = (sine_wave[sine_wave >= 33]).round()
     fake_array = []
     for item in zero_to_ff_wave.tolist():
         fake_array.append(item)
@@ -133,22 +136,25 @@ def print_data3(data):
         print("Sent trigga Mr. Fuzzy Balls")
     else:
         print("Serial Not Sent (Pi: Disabled): " + '[0x66, ' + hex(trigga) + "]")
-    # TODO: Scale trigga do that on the other side?
 
 
 @sio.on('relays', namespace='/test')
 def change_relays(data):
     # Constant Table that my sweet matt will provide
-    relays = [(0x1, 25), (0x2, 50), (0x3, 69), (0x4, 69), (0x5, 69), (0x6, 69)]  # TODO: Fill with hex_val divisor pairs
+    relay_hex = [0x12, 0x1A, 0x02, 0x08, 0x10, 0x18, 0x13, 0x1B, 0x0C, 0x14, 0x01, 0x09, 0x11, 0x19,
+                 0x05, 0x0D, 0x15, 0x1D, 0x25]
+    scalar_list = [0.287, 0.251125, 0.125563, 0.10045, 0.07175, 0.062781, 0.0574, 0.050225, 0.04018, 0.0287, 0.025113,
+                   0.02009, 0.01435, 0.012556, 0.010045, 0.008036, 0.00574, 0.005023, 0.002009]
     scalar = data['scalar']
     # Match scalar to relay value
     # Turn on/off appropriate GPIOs
-    for relay_pair in relays:
-        if scalar == relay_pair[2]:
+    for scale in scalar_list:
+        if scalar == scale:
+            relay_b = relay_hex[scalar_list.index(scale)]
             if isPi:
-                toggle_relay_pins(relay_pair[1])
+                toggle_relay_pins(relay_b)
             else:
-                print("Relay Data" + str(relay_pair))
+                print("Relay Data: " + str(relay_b))
             break
 
 

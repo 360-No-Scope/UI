@@ -40,16 +40,15 @@ x1_cursor = 0  # Cursors and trigger start at zero
 y1_cursor = 0
 x2_cursor = 0
 y2_cursor = 0
-trigga = 0  # TODO: Validate trigger initial value
+trigga = 0
 delayy = 1
-data_scalar = 30  # TODO: INSERT DEFAULT VALUE HERE 10 is BAD (blame matt)
+data_scalar = 0.010045  # 2V initial vscale
 
 
 class RandomThread(Thread):
     def __init__(self):
         global delayy
         self.delay = delayy
-        #TODO: Make sure this actually works
         super(RandomThread, self).__init__()
 
     def random_number_generator(self):
@@ -68,8 +67,8 @@ class RandomThread(Thread):
         # infinite loop of magical random numbers
         print("Asking nicely for some fresh hot data if you hit start")
 
-        vscale = .2  # height of window (V)
-        hscale = 1.19  # length of window (S)
+        vscale = 1.99  # height of window (V)
+        hscale = .99  # length of window (S)
 
         while not thread_stop_event.isSet():
             global pls_run
@@ -81,7 +80,6 @@ class RandomThread(Thread):
 
     def run(self):
         self.random_number_generator()
-
 
 
 @app.route('/')
@@ -138,8 +136,9 @@ def print_stuff4(data):
     y2_cursor = float(data['data'][3])
     trigger = float(data['data'][4])
     if abs(trigga-trigger) > abs(trigga/1000):
-        # TODO: Scale Trigger - waiting for Matt
-        socketio.emit('trigga', {'data': trigger}, namespace='/test')
+        scaled_trigger = trigga / data_scalar  # Divide to turn V back into -128-127
+        scaled_trigger = round(scaled_trigger + 128)  # Bring it back to 0-255
+        socketio.emit('trigga', {'data': scaled_trigger}, namespace='/test')
         trigga = trigger
     else:
         trigga = trigger
@@ -151,7 +150,6 @@ def print_stuff4(data):
 # If vscale, find appropriate relay to change it to and change relays (socket to comms.py)
 # Hscale -  data = {'data':['hageman', hscale]}
 # Vscale -  data = {'data':['bussy', vscale]}
-# TODO: GET VERT TABLE FROM MATT
 @socketio.on('scales', namespace='/test')
 def print_stuff3(data):
     print('Uh oh, stinky')
@@ -188,10 +186,10 @@ def print_stuff3(data):
         global vscale
         global data_scalar
         vscale = float(data['data'][1])
-        # TODO: When I have table values test this out
-        # data_scalar = find_relay(vscale)
+        new_relay = find_relay(vscale)
+        data_scalar = get_scalar_from_relay(new_relay)
         # Emit Relay Scalar to comms.py to change relays
-        # socketio.emit('relays', {'scalar': data_scalar}, namespace='/test')
+        socketio.emit('relays', {'scalar': data_scalar}, namespace='/test')
 
 
 # Socket to measure and send data to front end
@@ -232,15 +230,14 @@ def format_n_send(data):
     # Bring down to [-127:128] from [0-255] because it's really centered around 0
     sine_wave_adjusted = sine_wave_small - 127
     # print("Reduced Sine Wave: " + str(sine_wave_adjusted))  # Debug
-    # Just use the volt vertical scaling
-    # TODO: Uncomment after we have relay data
-    # sine_wave = sine_wave / data_scalar  # Convert -127:128 to +-actual voltage according to relay settings
-    # print(sine_wave_adjusted.size)
+    # Scale down numbers to real voltage values
+    sine_wave_scaled = sine_wave_adjusted * data_scalar
     # Generate time values with "0s" in the center
+    # TODO: Talk to matt about this, I don't think this is right, maybe sampling_rate*samples + and -
     time_vals = np.linspace(-abs(hscale/2.0), abs(hscale/2.0), samples_per_window)
     # print(time_vals)
     # Use Vertical Offset (filthily easy software implementation)
-    sine_wave_measure = sine_wave_adjusted + voffset
+    sine_wave_measure = sine_wave_scaled + voffset
 
     # Grab measurements of fully scaled data
     cursors = {'x1': x1_cursor, 'x2': x2_cursor, 'y1': y1_cursor, 'y2': y2_cursor}
@@ -341,7 +338,7 @@ def get_measurements(cursors, waveform, time_values, trigger):
         pkpk = abs(max(trim_waveform) - min(trim_waveform))
         rising_cnt = 0
         falling_cnt = 0
-        for idx,point in enumerate(trim_waveform):
+        for idx, point in enumerate(trim_waveform):
             if idx > 0:
                 prev_point = trim_waveform[idx-1]
             else:
@@ -422,20 +419,32 @@ def calculate_samples(window_length, h_offset):
 
 
 # Function to find the nearest relay setting
-# TODO: GET DATA FROM MATT
+
 # Doesn't do use until we have the table
 def find_relay(v_scale):
-    percent_bad = 90
-    relay_list = np.array([69, 420, 911])  # This is bad
-    # V-Scale is in pkpk form
+    percent_bad = 25
+    relay_list = np.array([73.472, 64.288, 32.144, 25.7152, 18.368, 16.072, 14.6944, 12.8576, 10.28608, 7.3472, 6.4288,
+                           5.14304, 3.6736, 3.2144, 2.57152, 2.057216, 1.46944, 1.28576, 0.514304])
+    # V-Scale and Relay are in pkpk form
     desired_relay = (1+(percent_bad/100))*v_scale
     fitting_relay_list = relay_list[relay_list >= desired_relay]
     if fitting_relay_list.size == 0:
-        # Uhhhhhh this ain't gonna work chief
-        set_relay = float(min(relay_list))
+        print("owo it's so big!!! +-35 volts really?")
+        set_relay = float(max(relay_list))
     else:
-        set_relay = float(fitting_relay_list.max())
+        set_relay = float(fitting_relay_list.min())
+        print("Relay found: " + str(set_relay))
     return set_relay
+
+
+def get_scalar_from_relay(relay):
+    scalar_list = [0.287, 0.251125, 0.125563, 0.10045, 0.07175, 0.062781, 0.0574, 0.050225, 0.04018, 0.0287, 0.025113,
+                   0.02009, 0.01435, 0.012556, 0.010045, 0.008036, 0.00574, 0.005023, 0.002009]
+    relay_list = [73.472, 64.288, 32.144, 25.7152, 18.368, 16.072, 14.6944, 12.8576, 10.28608, 7.3472, 6.4288,
+                  5.14304, 3.6736, 3.2144, 2.57152, 2.057216, 1.46944, 1.28576, 0.514304]
+    relay_idx = relay_list.index(relay)
+    scalar = scalar_list[relay_idx]
+    return scalar
 
 
 if __name__ == '__main__':

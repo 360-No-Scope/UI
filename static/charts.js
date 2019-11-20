@@ -2,11 +2,11 @@ function initChart() {
     var chart = am4core.create(document.getElementById("amChart"), am4charts.XYChart);
     var timeAxis = chart.xAxes.push(new am4charts.ValueAxis());
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxis.max = 7;
-    valueAxis.min = -7;
+    valueAxis.max = 1;
+    valueAxis.min = -1;
     //timeAxis.strictMinMax = true;
-    timeAxis.max = .6;
-    timeAxis.min = -.6;
+    timeAxis.max = .5;
+    timeAxis.min = -.5;
     timeAxis.title.text = "Time (s)";
 
     var series = chart.series.push(new am4charts.LineSeries());
