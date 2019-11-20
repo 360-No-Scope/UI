@@ -168,7 +168,6 @@ function socketStart(chart_data){
     });
     $('form#vscales').submit(function(event) {
         var v_scale = document.getElementById('vscale').value;
-        //TODO:Validate input and convert to standard unit
         console.log(v_scale);
         socket.emit('scales', {data: ['bussy', v_scale]});
         console.log("You're a poopyhead");
@@ -176,7 +175,6 @@ function socketStart(chart_data){
     });
     $('form#remmeas').submit(function(event) {
         var measurement = document.getElementById('measSelect').value;
-        //TODO:Validate input and convert to standard unit
         console.log(measurement);
         if (check_if_meas_exists(measurement, measList)) {
             var measList2 = [];
@@ -185,12 +183,11 @@ function socketStart(chart_data){
                     measList2.push(measList[i]);
                 }
                 else {
-                    //TODO: Remove HTML element from screen
                     var ul = document.getElementById("measure_list");
                     var item = document.getElementById(measurement
                     );
                     ul.removeChild(item);
-                    ;
+
                 }
             }
 
@@ -201,7 +198,6 @@ function socketStart(chart_data){
     });
     $('form#addmeas').submit(function(event) {
         var measurement = document.getElementById('measSelect').value;
-        //TODO:Validate input and convert to standard unit
         console.log(measurement);
         if (!check_if_meas_exists(measurement, measList)) {
             measList.push(measurement);

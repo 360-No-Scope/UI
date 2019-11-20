@@ -69,7 +69,7 @@ class RandomThread(Thread):
         print("Asking nicely for some fresh hot data if you hit start")
 
         vscale = .2  # height of window (V)
-        hscale = 1.2  # length of window (S)
+        hscale = 1.19  # length of window (S)
 
         while not thread_stop_event.isSet():
             global pls_run
@@ -138,7 +138,7 @@ def print_stuff4(data):
     y2_cursor = float(data['data'][3])
     trigger = float(data['data'][4])
     if abs(trigga-trigger) > abs(trigga/1000):
-        # Scale Trigger
+        # TODO: Scale Trigger - waiting for Matt
         socketio.emit('trigga', {'data': trigger}, namespace='/test')
         trigga = trigger
     else:
@@ -425,8 +425,8 @@ def calculate_samples(window_length, h_offset):
 # TODO: GET DATA FROM MATT
 # Doesn't do use until we have the table
 def find_relay(v_scale):
-    percent_bad = 20
-    relay_list = np.array([69, 420, 911]) # This is bad
+    percent_bad = 90
+    relay_list = np.array([69, 420, 911])  # This is bad
     # V-Scale is in pkpk form
     desired_relay = (1+(percent_bad/100))*v_scale
     fitting_relay_list = relay_list[relay_list >= desired_relay]

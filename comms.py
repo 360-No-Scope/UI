@@ -1,5 +1,5 @@
 import struct
-
+import time
 import socketio
 import numpy as np
 import math
@@ -29,14 +29,18 @@ if isPi:
     relay6 = gp.LED("BOARD37")
     relay_gpios = [relay1, relay2, relay3, relay4, relay5, relay6]
 
-else:
-    print("Not running on a rpi...")
-
-if isPi:
     # do all the weird startup stuff
+    for relay in relay_gpios:
+        relay.on()
+    time.sleep(60)
+    for relay in relay_gpios:
+        relay.off()
+
     # run startup code
     flipper.off()
     test_stuff = 1  # PLACEHOLDER
+else:
+    print("Not running on a rpi...")
 
 # Instantiate socketIO
 sio = socketio.Client()
@@ -56,14 +60,18 @@ def print_data69(data):
         # GPIO FLip
         flipper.on()
         print("Flipper")
-        # Serial Read 1024KB
+        uint8_list = []
+        # Serial Read 512B
         try:
             data = ser.read(512)
         except:
             print("punish me daddy~ nyea~")
+
         # print("kisses you and lickies your necky")
         # Format Data to be 0-255 ints not bytes types
-        uint8_list = data  # Placeholder TODO: Find out the datatype of data and convert!
+        for item in data:
+            uint8_list.append(int(item))
+
         # Send Data
         sio.emit('big_woad2', {'data': uint8_list}, namespace='/test')
         flipper.off()
@@ -124,6 +132,7 @@ def print_data3(data):
     if isPi:
         ser.write(0x66)
         ser.write(trigga)
+        print("Sent trigga Mr. Fuzzy Balls")
     else:
         print("Serial Not Sent (Pi: Disabled): " + '[0x66, ' + hex(trigga) + "]")
     # TODO: Scale trigga do that on the other side?
@@ -132,7 +141,7 @@ def print_data3(data):
 @sio.on('relays', namespace='/test')
 def change_relays(data):
     # Constant Table that my sweet matt will provide
-    relays = [(0x1, 25), (0x2, 50), (0x3, 69), (0x4, 69), (0x5, 69), (0x6, 69)]  #TODO: Fill with hex_val divisor pairs
+    relays = [(0x1, 25), (0x2, 50), (0x3, 69), (0x4, 69), (0x5, 69), (0x6, 69)]  # TODO: Fill with hex_val divisor pairs
     scalar = data['scalar']
     # Match scalar to relay value
     # Turn on/off appropriate GPIOs
