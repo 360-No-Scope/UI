@@ -201,7 +201,7 @@ def print_stuff3(data):
         # Socket to comms.py with new divisor for sample rate
         socketio.emit('divisor', {'divisor': divisor}, namespace='/test')
         # Check for significant change, if so change the user's window length, else do nothing
-        if abs(hscale - new_window >= hscale/1000):
+        if abs(hscale - new_window) >= hscale/1000:
             print("Pretty BIG change owo")
             hscale = new_window
         print("Hscale when Pi is done: " + str(hscale))
