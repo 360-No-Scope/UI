@@ -160,6 +160,7 @@ def print_data3(data):
     if isPi:
         try:
             ser.write([0x66])
+            ser.write([trigga])
             print("Sent trigga Mr. Fuzzy Balls")
         except:
             print("SERIAL ERROR")
