@@ -34,7 +34,7 @@ error_plagueis = [105, 100, 32, 121, 111, 117, 32, 101, 118, 101, 114, 32, 104, 
                   101, 32, 115, 111, 32, 112, 111, 119, 101, 114, 102, 117, 108, 32, 116, 104, 101, 32, 111, 110, 108,
                   121, 32, 116, 104, 105, 110, 103, 32, 104, 101, 32, 119, 97, 115, 32, 97, 102, 114, 97, 105, 100, 46]
 
-isPi = False
+isPi = True
 
 if isPi:
     ser = serial.Serial('/dev/ttyS0', 115200, timeout=.75)
@@ -58,6 +58,12 @@ if isPi:
 
     # run startup code
     flipper.off()
+    relay1.off()
+    relay2.off()
+    relay3.off()
+    relay4.off()
+    relay5.off()
+    relay6.off()
     test_stuff = 1  # PLACEHOLDER
 else:
     print("Not running on a rpi...")
@@ -183,11 +189,20 @@ def change_relays(data):
 
 def toggle_relay_pins(relay_bits):
     if isPi:
-        for value in range(0, 5, 1):
-            if relay_bits & (value + 1) != 0:
-                relay_gpios[value].on()
+        real_bits = bin(relay_bits)[2:]
+        print("Relay Val: " + real_bits)
+        for value in range(1, len(real_bits)+1, 1):
+
+            if real_bits[-value] != '0':
+                relay_gpios[value-1].on()
+                print("Relay " + str(value) + " On")
             else:
-                relay_gpios[value].off()
+                relay_gpios[value-1].off()
+                print("Relay " + str(value) + " Off")
+        if len(real_bits) < 6:
+            for off_relay in range(len(real_bits)+1, 6+1, 1):
+                relay_gpios[off_relay-1].off()
+                print("Relay " + str(off_relay) + " Off")
 
 
 @sio.event
