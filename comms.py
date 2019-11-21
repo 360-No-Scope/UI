@@ -141,6 +141,7 @@ def print_data2(data):
         ser.write([0x69])
         for byte in bytes_list:
             ser.write([byte])
+            print(hex(byte) + " ")
     else:
         print("Divisor: " + str(divisor))
         print("Divisor Bytes: ")
