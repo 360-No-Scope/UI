@@ -34,7 +34,7 @@ error_plagueis = [105, 100, 32, 121, 111, 117, 32, 101, 118, 101, 114, 32, 104, 
                   101, 32, 115, 111, 32, 112, 111, 119, 101, 114, 102, 117, 108, 32, 116, 104, 101, 32, 111, 110, 108,
                   121, 32, 116, 104, 105, 110, 103, 32, 104, 101, 32, 119, 97, 115, 32, 97, 102, 114, 97, 105, 100, 46]
 
-isPi = False
+isPi = True
 
 if isPi:
     ser = serial.Serial('/dev/ttyS0', 115200, timeout=.75)
@@ -94,6 +94,7 @@ def print_data69(data):
             uint8_list.append(int(item))
         if uint8_list == [] or uint8_list == [0]:
             uint8_list = error_plagueis
+        print(uint8_list)
         sio.emit('big_woad2', {'data': uint8_list}, namespace='/test')
         flipper.off()
     else:
