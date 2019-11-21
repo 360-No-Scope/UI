@@ -100,7 +100,7 @@ def print_data69(data):
             uint8_list.append(int(item))
         if uint8_list == [] or uint8_list == [0]:
             uint8_list = error_plagueis
-        print(uint8_list)
+        #print(uint8_list)
         sio.emit('big_woad2', {'data': uint8_list}, namespace='/test')
         flipper.off()
     else:
