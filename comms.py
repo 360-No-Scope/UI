@@ -100,7 +100,7 @@ def print_data69(data):
             uint8_list.append(int(item))
         if uint8_list == [] or uint8_list == [0]:
             uint8_list = error_plagueis
-        #print(uint8_list)
+        # print(uint8_list)
         sio.emit('big_woad2', {'data': uint8_list}, namespace='/test')
         flipper.off()
     else:
@@ -175,7 +175,7 @@ def change_relays(data):
     # Constant Table that my sweet matt will provide
     relay_hex = [0x12, 0x1A, 0x00, 0x08, 0x10, 0x18, 0x13, 0x1B, 0x0C, 0x14, 0x01, 0x09, 0x11, 0x19,
                  0x05, 0x0D, 0x15, 0x1D, 0x25]
-    scalar_list = [0.287, 0.251125, 0.125563, 0.10045, 0.07175, 0.062781, 0.0574, 0.050225, 0.04018, 0.0287, 0.025113,
+    scalar_list = [0.287, 0.251125, 0.125563, 0.10045, 0.07175, 0.062781, 0.006027, 0.050225, 0.04018, 0.0287, 0.025113,
                    0.02009, 0.01435, 0.012556, 0.010045, 0.008036, 0.00574, 0.005023, 0.002009]
     scalar = data['scalar']
     # Match scalar to relay value
