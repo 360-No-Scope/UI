@@ -271,40 +271,39 @@
             <input type="submit" value="Remove Meas." class="button_rem">
         </form>
         </div>
-        <div id="cursors" style="width: 35%; float: left">
-            <div><p>Cursor Select and Movement</p></div>
-            <form id="cursor_form" method="post">
-                <div>
-                    <select id="cursor_select" onchange=change_cursor_sel(); class="select_cursor">
-                        <option value="X1">X1</option>
-                        <option value="X2">X2</option>
-                        <option value="Y1">Y1</option>
-                        <option value="Y2">Y2</option>
-                        <option value="Trigger">Trigger</option>
-                    </select>
-                </div>
-                <div>
-                    <input type="submit" id="big_reduce" value="<<" onclick="change_cursor_val(-10)" class="button">
-                    <input type="submit" id="small_reduce" value="<" onclick="change_cursor_val(-100)" class="button">
-                    <input type="text" id="cursor_val" value="0.0" readonly>
-                    <input type="submit" id="small_increase" value=">" onclick="change_cursor_val(100)" class="button">
-                    <input type="submit" id="big_increase" value=">>" onclick="change_cursor_val(10)" class="button">
-                    <input type="hidden" id="X1" value="0.0">
-                    <input type="hidden" id="X2" value="0.0">
-                    <input type="hidden" id="Y2" value="0.0">
-                    <input type="hidden" id="Y1" value="0.0">
-                    <input type="hidden" id="time_width" value="0.0">
-                    <input type="hidden" id="volt_width" value="0.0">
-                    <input type="hidden" id="Trigger" value="0.0">
-                    <input type="hidden" id="old_cursor" value="X1">
-                </div>
-            </form>
-        </div>
+
     </div>
-
-
-
+    <div id="cursors" style="margin-left: 50%">
+        <div><p>Cursor Select and Movement</p></div>
+        <form id="cursor_form" method="post">
+            <div>
+                <select id="cursor_select" onchange=change_cursor_sel(); class="select_cursor">
+                    <option value="X1">X1</option>
+                    <option value="X2">X2</option>
+                    <option value="Y1">Y1</option>
+                    <option value="Y2">Y2</option>
+                    <option value="Trigger">Trigger</option>
+                </select>
+            </div>
+            <div>
+                <input type="submit" id="big_reduce" value="<<" onclick="change_cursor_val(-10)" class="button">
+                <input type="submit" id="small_reduce" value="<" onclick="change_cursor_val(-100)" class="button">
+                <input type="text" id="cursor_val" value="0.0" readonly>
+                <input type="submit" id="small_increase" value=">" onclick="change_cursor_val(100)" class="button">
+                <input type="submit" id="big_increase" value=">>" onclick="change_cursor_val(10)" class="button">
+                <input type="hidden" id="X1" value="0.0">
+                <input type="hidden" id="X2" value="0.0">
+                <input type="hidden" id="Y2" value="0.0">
+                <input type="hidden" id="Y1" value="0.0">
+                <input type="hidden" id="time_width" value="0.0">
+                <input type="hidden" id="volt_width" value="0.0">
+                <input type="hidden" id="Trigger" value="0.0">
+                <input type="hidden" id="old_cursor" value="X1">
+            </div>
+        </form>
+    </div>
 </div>
+
 <script>
     var big_chart = initChart();
     socketStart(big_chart);
