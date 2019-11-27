@@ -211,7 +211,7 @@
     </div>
 
 </div>
-<div style="height: 310px; width: 100%;">
+<div style="height: 350px; width: 100%;">
     <div id="buttons" style="width: 100%; height:50%;float: left;">
         <div id="start_stop_div" style="width: 10%; float: left;">
         <form id="start_form" method="POST" action='#'>
@@ -227,28 +227,28 @@
         </div>
         <div id="scaling_div" style="width: 50%; float: left;">
         <form id="hscales" method="POST" action="#">
-            <div id="scale">
+            <div id="scale" style="margin-bottom: 10px">
                 <label for="hscale">Enter the screen width in S</label>
-                <input type="text" name="hscale" id="hscale" required>
+                <input type="text" name="hscale" id="hscale" required style="margin-left: 49px">
                 <input type="submit" value="Scale!" class="button2">
 
             </div>
         </form>
         <form id="vscales" method="POST" action="#">
-            <div>
+            <div  style="margin-bottom: 10px">
                 <label for="vscale_submit">Enter the vertical window size in V</label>
                 <input type="text" name="vscale" id="vscale" required>
                 <input type="submit" value="Scale!" class="button2">
             </div>
         </form>
-        <form id="hoffset_form" method="post">
+        <form id="hoffset_form" method="post"  style="margin-bottom: 10px">
             <label for="hoffset">Horizontal Offset (S)</label>
-            <input type="text" id="hoffset" value="0.0">
+            <input type="text" id="hoffset" value="0.0" style="margin-left: 98px">
             <input type="submit" id="hoffset_sub" value="Submit" class="button2">
-            </form>
-            <form id="voffset_form" method="post">
+        </form>
+        <form id="voffset_form" method="post">
             <label for="voffset">Vertical Offset (V)</label>
-            <input type="text" id="voffset" value="0.0">
+            <input type="text" id="voffset" value="0.0" style="margin-left: 118px">
             <input type="submit" id="voffset_sub" value="Submit" class="button2">
         </form>
         </div>
